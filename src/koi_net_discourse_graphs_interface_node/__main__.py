@@ -1,3 +1,3 @@
-from .core import DiscourseGraphsNode
+from .core import DiscourseGraphsInterfaceNode
 
-DiscourseGraphsNode().run()
+DiscourseGraphsInterfaceNode().run()

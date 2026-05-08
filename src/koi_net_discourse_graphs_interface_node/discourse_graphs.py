@@ -6,7 +6,7 @@ from supabase import Client
 
 
 @dataclass
-class DiscourseGraphClient:
+class DiscourseGraphsClient:
     base_url: str
     space_id: int
     password: str
@@ -42,7 +42,7 @@ class DiscourseGraphClient:
         pass
 
     @classmethod
-    def create_space(cls, base_url: str, name: str, platform: str, url: str, password: str) -> "DiscourseGraphClient":
+    def create_space(cls, base_url: str, name: str, platform: str, url: str, password: str) -> "DiscourseGraphsClient":
         """Create a new space and return a client for it, ready to connect."""
         resp = requests.post(
             base_url + "/api/supabase/space",

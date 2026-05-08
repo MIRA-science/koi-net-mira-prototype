@@ -1,10 +1,16 @@
 from koi_net.core import FullNode
 
-from .dg_client import DGClient
+from .backfill import DGPoller
 
+from .discourse_graphs import DiscourseGraphsClient
 from .config import DiscourseGraphsNodeConfig
 
 
-class DiscourseGraphsNode(FullNode):
+class DiscourseGraphsInterfaceNode(FullNode):
     config_schema = DiscourseGraphsNodeConfig
-    dg_client = DGClient
+    dg_client = lambda config: DiscourseGraphsClient(
+        base_url=config.discourse_graphs.base_url,
+        space_id=config.discourse_graphs.space_id,
+        password=config.discourse_graphs.password
+    ).connect()
+    backfiller = DGPoller

@@ -2,10 +2,10 @@ import json
 
 from rdflib import Dataset, Graph
 
-from unified_dg_api import DiscourseGraphClient
+from koi_net_discourse_graphs_interface_node.discourse_graphs import DiscourseGraphsClient
 
 
-client = DiscourseGraphClient(
+client = DiscourseGraphsClient(
     base_url="https://discourse-graph-git-rt-experiments-discourse-graphs.vercel.app",
     space_id=14967110,
     password="REDACTED"
