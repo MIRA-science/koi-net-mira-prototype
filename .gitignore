@@ -1,0 +1,18 @@
+# Python and environment
+__pycache__/
+build/
+dist/
+*.egg-info/
+*.py[cod]
+.venv
+.env
+
+# KOI-net generated files
+config.yaml
+priv_key.pem
+.rid_cache
+log.ndjson*
+
+node_modules
+temp
+data
