@@ -10,9 +10,10 @@ from koi_net.components.interfaces import ThreadedComponent
 from koi_net.infra import depends_on
 from rid_lib.ext import Bundle
 
+from .discourse_graph import DiscourseGraphsClient
 from .config import DiscourseGraphsNodeConfig
 from .rid_types import DiscourseGraphNode
-from .discourse_graphs import DiscourseGraphsClient
+# from .discourse_graphs import DiscourseGraphsClient
 
 
 
@@ -20,7 +21,7 @@ from .discourse_graphs import DiscourseGraphsClient
 class DGPoller(ThreadedComponent):
     log: Logger
     config: DiscourseGraphsNodeConfig
-    dg_client: DiscourseGraphsClient
+    # dg_client: DiscourseGraphsClient
     kobj_queue: KobjQueue
     cache: Cache
     
@@ -36,6 +37,14 @@ class DGPoller(ThreadedComponent):
         super().stop()
         
     def run(self):
+        self.dg_client = DiscourseGraphsClient(
+            base_url=self.config.discourse_graphs.base_url)
+        self.dg_space = self.dg_client.create_space(
+            name="Test Vault",
+            url="obsidian:28af0fec9a63ca73",
+            password="REDACTED"
+        )
+        
         while not self.exit_event.is_set():
             self.log.info("Polling...")
             start_time = time.monotonic()
@@ -45,11 +54,11 @@ class DGPoller(ThreadedComponent):
             )
 
     def poll(self):
-        space = self.dg_client.get_space()
+        space_data = self.dg_space.get_space()
         
-        print(json.dumps(space, indent=2))
+        print(json.dumps(space_data, indent=2))
 
-        for resource_ref in space["container_of"]:
+        for resource_ref in space_data["container_of"]:
             res_rid = DiscourseGraphNode(
                 space_id=self.config.discourse_graphs.space_id,
                 resource_id=resource_ref["@id"].split(":")[1]
@@ -71,7 +80,7 @@ class DGPoller(ThreadedComponent):
             else:
                 self.log.info("new resource!")
             
-            resource = self.dg_client.get_resource(res_rid.resource_id)
+            resource = self.dg_space.get_resource(res_rid.resource_id)
             
             self.kobj_queue.push(
                 bundle=Bundle.generate(
