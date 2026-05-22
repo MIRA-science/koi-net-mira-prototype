@@ -6,11 +6,12 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "koi-net==2.1.0b4",
-    "koi-net-graph-extension",
+    "rid-lib==3.3.0b1",
     "rdflib>=7.6.0",
     "requests>=2.33.1",
     "supabase>=2.29.0",
 ]
 
 [tool.uv.sources]
-koi-net-graph-extension = { path = "../koi-net-graph-extension" }
+koi-net = { path = "../koi-net", editable = true }
+rid-lib = { path = "../rid-lib", editable = true }

@@ -1,6 +1,4 @@
-import datetime
-
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from koi_net.config import (
     FullNodeConfig, 
     KoiNetConfig, 
@@ -8,13 +6,19 @@ from koi_net.config import (
     FullNodeProfile, 
     NodeProvides
 )
+from rid_lib.types import KoiNetNode
 
-class DiscourseGraphsConfig(BaseModel):
+
+class SpaceCredentials(BaseModel):
+    name: str
+    uri: str
+    password: str
+
+class DiscourseGraphConfig(BaseModel):
     base_url: str = ""
-    space_id: str = ""
-    password: str = ""
+    spaces: dict[KoiNetNode, SpaceCredentials] = {}
 
-class DiscourseGraphsNodeConfig(FullNodeConfig):
+class DiscourseGraphNodeConfig(FullNodeConfig):
     server: ServerConfig = ServerConfig(port=8008)
     koi_net: KoiNetConfig = KoiNetConfig(
         node_name="discourse-graphs-node",
@@ -22,4 +26,4 @@ class DiscourseGraphsNodeConfig(FullNodeConfig):
             provides=NodeProvides()
         )
     )
-    discourse_graphs: DiscourseGraphsConfig = DiscourseGraphsConfig()
+    discourse_graph: DiscourseGraphConfig = Field(default_factory=DiscourseGraphConfig)

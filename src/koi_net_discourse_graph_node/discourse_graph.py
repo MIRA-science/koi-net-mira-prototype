@@ -8,7 +8,7 @@ from supabase import Client
 
 
 @dataclass
-class DiscourseGraphsClient:
+class DiscourseGraphClient:
     base_url: str
     public_key: str = field(repr=False)
 
@@ -33,9 +33,9 @@ class DiscourseGraphsClient:
 
     def create_space(
         self, name: str, url: str, password: str, platform: str = "Obsidian"
-    ) -> "DiscourseGraphsSpaceClient":
+    ) -> "DiscourseGraphSpaceClient":
         """Create a new space and return a client for it, ready to connect."""
-        space_client = DiscourseGraphsSpaceClient(
+        space_client = DiscourseGraphSpaceClient(
             base_client=self, name=name, platform=platform, url=url, password=password
         )
         space_client.connect()
@@ -43,8 +43,8 @@ class DiscourseGraphsClient:
 
 
 @dataclass
-class DiscourseGraphsSpaceClient:
-    base_client: DiscourseGraphsClient
+class DiscourseGraphSpaceClient:
+    base_client: DiscourseGraphClient
     url: str
     name: str
     password: str
@@ -111,7 +111,6 @@ class DiscourseGraphsSpaceClient:
     def get_resource(self, resource_id: int, space_id: int = None, **params):
         sid = space_id if space_id is not None else self.space_id
         req_url = self.base_client.base_url + f"/api/data/{sid}/{resource_id}"
-        print(f"Making request to <{req_url}>")
         resp = requests.get(
             req_url,
             cookies=self._cookies,
@@ -213,7 +212,7 @@ class DiscourseGraphsSpaceClient:
 
 if __name__ == "__main__":
     # Create a space
-    dg_client = DiscourseGraphsClient(base_url="https://discourse-graph-git-rt-experiments-discourse-graphs.vercel.app")
+    dg_client = DiscourseGraphClient(base_url="https://discourse-graph-git-rt-experiments-discourse-graphs.vercel.app")
     user_space = dg_client.create_space(
         name="User Space",
         url="obsidian:28af0fec9a63ca73",
