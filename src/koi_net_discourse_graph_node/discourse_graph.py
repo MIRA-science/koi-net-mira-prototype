@@ -151,10 +151,12 @@ class DiscourseGraphSpaceClient:
     def get_group_member_data(self, group_name: str):
         group_id = self.get_group(group_name)
         assert group_id
-        resp = self._supabase.rpc(
-            "spaces_in_group",
-            dict(p_group_id=group_id),
-        ).execute()
+        resp = (
+            self._supabase.table("my_pseudo_accounts")
+            .select()
+            .eq("group_id", group_id)
+            .execute()
+        )
         return resp.data
 
     def get_or_create_group(self, group_name: str):

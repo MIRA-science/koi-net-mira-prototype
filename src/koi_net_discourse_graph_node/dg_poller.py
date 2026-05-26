@@ -62,7 +62,7 @@ class DGPoller(ThreadedComponent):
                 self.log.debug(f"Polling group {group_name}")
                 group_spaces = space_client.get_group_member_data(group_name)
                 for group_space_data in group_spaces:
-                    space_id = group_space_data["id"]
+                    space_id = group_space_data["space_id"]
                     self.log.debug(f"Polling space {space_id}")
                     space_data = space_client.get_space(space_id)
                     for resource_ref in space_data["container_of"]:
