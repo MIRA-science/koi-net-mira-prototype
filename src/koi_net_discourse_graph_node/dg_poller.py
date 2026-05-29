@@ -8,6 +8,8 @@ from logging import Logger
 from koi_net.components import KobjQueue, Cache
 from koi_net.components.interfaces import ThreadedComponent
 from koi_net.infra import depends_on
+from koi_net.protocol import KnowledgeObject
+from rdflib import Graph, Namespace
 from rid_lib.ext import Bundle
 
 from .space_manager import SpaceManager
@@ -37,20 +39,12 @@ class DGPoller(ThreadedComponent):
         super().stop()
         
     def run(self):
-        self.dg_client = DiscourseGraphClient(
-            base_url=self.config.discourse_graph.base_url)
-        # self.dg_space = self.dg_client.create_space(
-        #     name="Test Vault",
-        #     url="obsidian:28af0fec9a63ca73",
-        #     password="REDACTED"
-        # )
-        
         while not self.exit_event.is_set():
             self.log.info("Polling...")
             start_time = time.monotonic()
             self.poll()
             self.exit_event.wait(
-                max(0, 5 - (time.monotonic() - start_time))
+                max(0, 30 - (time.monotonic() - start_time))
             )
     
     
@@ -58,27 +52,41 @@ class DGPoller(ThreadedComponent):
         for node, space_client in self.space_manager.space_clients.items():
             self.log.debug(f"Polling for {node}")
             groups = space_client.get_groups().copy()
+            print("Polling node", node)
             for group_id, group_name in groups.items():
                 self.log.debug(f"Polling group {group_name}")
                 group_spaces = space_client.get_group_member_data(group_name)
+
+                print("\tPolling group", group_name)
                 for group_space_data in group_spaces:
+                    if group_space_data["sharing_permissions"] is None:
+                        continue
+                    
                     space_id = group_space_data["space_id"]
                     self.log.debug(f"Polling space {space_id}")
+                    print("\t\tPolling space", space_id, group_space_data['name'])
                     space_data = space_client.get_space(space_id)
-                    for resource_ref in space_data["container_of"]:
-                        res_rid = DiscourseGraphNode(
-                            space_id=space_id,
-                            resource_id=resource_ref["@id"].split(":")[1]
-                        )
-                        
-                        prev_bundle = self.cache.read(res_rid)
+                    
+                    # print(json.dumps(space_data, indent=2))
+                    
+                    space_graph = Graph()
+                    space_graph.parse(data=space_data, format="json-ld")
+                    
+                    SIOC = Namespace("http://rdfs.org/sioc/ns#")
+                    DC = Namespace("http://purl.org/dc/elements/1.1/")
+                    
+                    for _, _, resource_uri in space_graph.triples((None, SIOC.container_of, None)):
+                        print("\t\t\t", resource_uri)
+                        prev_bundle = self.cache.read(resource_uri)
                         
                         if prev_bundle:
                             last_modified = datetime.fromisoformat(
                                 prev_bundle.contents["modified"])
                             
-                            curr_modified = datetime.fromisoformat(
-                                resource_ref["modified"])
+                            curr_modified_str = space_graph.value(
+                                subject=resource_uri, 
+                                predicate=DC.modified)
+                            curr_modified = datetime.fromisoformat(curr_modified_str)
                             
                             if curr_modified <= last_modified:
                                 continue
@@ -87,13 +95,16 @@ class DGPoller(ThreadedComponent):
                         else:
                             self.log.info("new resource!")
                         
-                        resource_data = space_client.get_resource(res_rid.resource_id)
+                        resource_data = space_client.get_resource(resource_uri.split("/")[-1])
                         
-                        self.kobj_queue.push(
-                            bundle=Bundle.generate(
-                                rid=res_rid,
+                        kobj = KnowledgeObject.from_bundle(
+                            Bundle.generate(
+                                rid=resource_uri,
                                 contents=resource_data
                             )
                         )
+                        kobj.network_targets.add(node)
                         
-                        print(resource_data)
+                        self.kobj_queue.push(kobj=kobj)
+                        
+                        # print(resource_data)

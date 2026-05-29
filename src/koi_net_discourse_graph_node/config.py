@@ -6,7 +6,7 @@ from koi_net.config import (
     FullNodeProfile, 
     NodeProvides
 )
-from rid_lib.types import KoiNetNode
+from rid_lib.types import HTTPS, KoiNetNode
 
 
 class SpaceCredentials(BaseModel):
@@ -15,15 +15,19 @@ class SpaceCredentials(BaseModel):
     password: str
 
 class DiscourseGraphConfig(BaseModel):
-    base_url: str = ""
+    base_url: str = "https://discourse-graph-git-rt-experiments-discourse-graphs.vercel.app"
+    group_name: str = ""
     spaces: dict[KoiNetNode, SpaceCredentials] = {}
 
 class DiscourseGraphNodeConfig(FullNodeConfig):
     server: ServerConfig = ServerConfig(port=8008)
     koi_net: KoiNetConfig = KoiNetConfig(
-        node_name="discourse-graphs-node",
+        node_name="discourse-graph",
         node_profile=FullNodeProfile(
-            provides=NodeProvides()
+            provides=NodeProvides(
+                event=[HTTPS],
+                state=[HTTPS]
+            )
         )
     )
     discourse_graph: DiscourseGraphConfig = Field(default_factory=DiscourseGraphConfig)

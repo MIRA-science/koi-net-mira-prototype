@@ -10,8 +10,12 @@ dependencies = [
     "rdflib>=7.6.0",
     "requests>=2.33.1",
     "supabase>=2.29.0",
+    "atproto>=0.0.65",
+    "koi-net-coordinator-node>=0.1.0",
+    "koi-net-graph-extension",
 ]
 
 [tool.uv.sources]
 koi-net = { path = "../koi-net", editable = true }
 rid-lib = { path = "../rid-lib", editable = true }
+koi-net-graph-extension = { path = "../koi-net-graph-extension" }
