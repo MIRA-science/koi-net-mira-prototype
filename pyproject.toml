@@ -1,21 +1,24 @@
 [project]
-name = "koi-mira"
+name = "koi-mira-prototype"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "koi-net==2.1.0b4",
-    "rid-lib==3.3.0b1",
-    "rdflib>=7.6.0",
-    "requests>=2.33.1",
-    "supabase>=2.29.0",
-    "atproto>=0.0.65",
     "koi-net-coordinator-node>=0.1.0",
+    "koi-net-discourse-graph-node",
     "koi-net-graph-extension",
+    "koi-net-semble-node",
 ]
 
 [tool.uv.sources]
-koi-net = { path = "../koi-net", editable = true }
-rid-lib = { path = "../rid-lib", editable = true }
 koi-net-graph-extension = { path = "../koi-net-graph-extension" }
+koi-net-discourse-graph-node = { workspace = true }
+koi-net-semble-node = { workspace = true }
+
+[tool.uv.workspace]
+members = [
+    "packages/koi-net-semble-node",
+    "packages/koi-net-discourse-graph-node",
+    "packages/mira-extras",
+]

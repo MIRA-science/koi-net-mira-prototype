@@ -4,8 +4,8 @@ from logging import Logger
 
 from koi_net.components import NodeIdentity
 from rid_lib.types import KoiNetNode
+from mira_extras.discourse_graph import DiscourseGraphClient, DiscourseGraphSpaceClient
 
-from .discourse_graph import DiscourseGraphClient, DiscourseGraphSpaceClient
 from .config import DiscourseGraphNodeConfig, SpaceCredentials
 
 

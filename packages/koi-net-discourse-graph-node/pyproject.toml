@@ -1,0 +1,22 @@
+[project]
+name = "koi-net-discourse-graph-node"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "lukvmil", email = "millerluke1364@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "koi-net>=2.1.0b5",
+    "mira-extras",
+    "rid-lib>=3.3.0b1",
+    "rdflib>=7.6.0"
+]
+
+[build-system]
+requires = ["uv_build>=0.8.15,<0.9.0"]
+build-backend = "uv_build"
+
+[tool.uv.sources]
+mira-extras = { workspace = true }

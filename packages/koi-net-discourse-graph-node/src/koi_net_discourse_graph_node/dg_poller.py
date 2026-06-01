@@ -1,4 +1,3 @@
-import json
 import threading
 import time
 from dataclasses import dataclass, field
@@ -14,10 +13,8 @@ from rid_lib.ext import Bundle
 
 from .space_manager import SpaceManager
 
-from .discourse_graph import DiscourseGraphClient
 from .config import DiscourseGraphNodeConfig
-from .rid_types import DiscourseGraphNode
-# from .discourse_graphs import DiscourseGraphsClient
+
 
 @dataclass
 class DGPoller(ThreadedComponent):
@@ -52,22 +49,20 @@ class DGPoller(ThreadedComponent):
         for node, space_client in self.space_manager.space_clients.items():
             self.log.debug(f"Polling for {node}")
             groups = space_client.get_groups().copy()
-            print("Polling node", node)
+            self.log.debug(f"Polling node {node}")
             for group_id, group_name in groups.items():
                 self.log.debug(f"Polling group {group_name}")
                 group_spaces = space_client.get_group_member_data(group_name)
 
-                print("\tPolling group", group_name)
                 for group_space_data in group_spaces:
                     if group_space_data["sharing_permissions"] is None:
                         continue
                     
                     space_id = group_space_data["space_id"]
-                    self.log.debug(f"Polling space {space_id}")
-                    print("\t\tPolling space", space_id, group_space_data['name'])
+                    self.log.debug(f"Polling space {space_id} ({group_space_data['name']})")
                     space_data = space_client.get_space(space_id)
                     
-                    # print(json.dumps(space_data, indent=2))
+                    # self.log.debug(json.dumps(space_data, indent=2))
                     
                     space_graph = Graph()
                     space_graph.parse(data=space_data, format="json-ld")
@@ -76,7 +71,7 @@ class DGPoller(ThreadedComponent):
                     DC = Namespace("http://purl.org/dc/elements/1.1/")
                     
                     for _, _, resource_uri in space_graph.triples((None, SIOC.container_of, None)):
-                        print("\t\t\t", resource_uri)
+                        self.log.debug(f"Processing {resource_uri}")
                         prev_bundle = self.cache.read(resource_uri)
                         
                         if prev_bundle:
@@ -107,4 +102,3 @@ class DGPoller(ThreadedComponent):
                         
                         self.kobj_queue.push(kobj=kobj)
                         
-                        # print(resource_data)

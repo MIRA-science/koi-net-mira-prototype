@@ -7,12 +7,11 @@ from koi_net.protocol import KnowledgeObject
 from koi_net_graph_extension.core import GraphMixin
 from pydantic import Field
 from rid_lib.types import HTTPS, KoiNetNode
-
-from semble_client import SemblePDSClient
+from mira_extras.semble import SemblePDSClient
 
 
 class SembleEnvConfig(EnvConfig):
-    bksy_handle: str
+    bsky_handle: str
     bsky_app_password: str
 
 class SembleNodeConfig(FullNodeConfig):
@@ -38,7 +37,7 @@ class SembleHandler(KnowledgeHandler):
         super().__post_init__()
         self.client = SemblePDSClient(service="https://bsky.social")
         self.client.login(
-            self.config.env.bksy_handle,
+            self.config.env.bsky_handle,
             self.config.env.bsky_app_password
         )
         

@@ -181,6 +181,7 @@ class DiscourseGraphSpaceClient:
     def add_to_group_direct(
         self, group_name: str, account_id: str, admin: bool = False
     ):
+        # print(f"Adding {account_id} to group '{group_name}'")
         group_id = self.get_or_create_group(group_name)
         resp = (
             self._supabase.table("group_membership")
@@ -209,55 +210,3 @@ class DiscourseGraphSpaceClient:
             dict(token=token),
         ).execute()
         # assert resp.data   # works once, not idempotent (oupse!)
-
-
-
-if __name__ == "__main__":
-    # Create a space
-    dg_client = DiscourseGraphClient(base_url="https://discourse-graph-git-rt-experiments-discourse-graphs.vercel.app")
-    user_space = dg_client.create_space(
-        name="User Space",
-        url="obsidian:28af0fec9a63ca73",
-        password="REDACTED"
-    )
-    target_space = dg_client.create_space(
-        name="Target Space",
-        url="obsidian:83382dd4d3ce80c2",
-        password="REDACTED"
-    )
-    
-    GROUP_NAME = "test-publishing-group"
-    user_space.get_or_create_group(GROUP_NAME)
-    
-    user_space.add_to_group_direct(GROUP_NAME, target_space.pseudo_account_id)
-    
-    print(target_space.get_groups())
-    quit()
-    
-    group_spaces = target_space.get_group_member_data(GROUP_NAME)
-    for group_space_data in group_spaces:
-        print(group_space_data)
-        space_data = target_space.get_space(group_space_data['id'])
-        
-        for resource_ref in space_data["container_of"]:
-            resource_id = resource_ref["@id"].split(":")[1]
-            print(resource_id)
-
-            resource_data = target_space.get_resource(resource_id)
-            if resource_data["@type"] in ("NodeSchema", "RelationDef"):
-                continue
-            print(json.dumps(resource_data, indent=2))
-            print()
-        
-    
-    
-    space_data = user_space.get_space()
-    for resource_ref in space_data["container_of"]:
-        resource_id = resource_ref["@id"].split(":")[1]
-        
-        resource_data = user_space.get_resource(resource_id)
-        if resource_data["@type"] in ("NodeSchema", "RelationDef"):
-                continue
-            
-        print(json.dumps(resource_data, indent=2))
-        print()

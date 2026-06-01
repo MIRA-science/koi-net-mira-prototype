@@ -4,7 +4,7 @@ from koi_net.components import Cache
 from koi_net.components.interfaces import KnowledgeHandler, HandlerType
 from koi_net.protocol import EdgeProfile, EventType, KnowledgeObject
 from rid_lib.ext import Bundle
-from rid_lib.types import HTTPS, KoiNetEdge, KoiNetNode
+from rid_lib.types import HTTPS, KoiNetEdge
 
 from .space_manager import SpaceManager
 
