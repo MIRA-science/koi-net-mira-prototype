@@ -9,6 +9,7 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "koi-net>=2.1.0b5",
+    "koi-net-graph-extension",
     "mira-extras",
     "rid-lib>=3.3.0b1",
 ]
@@ -19,3 +20,4 @@ build-backend = "uv_build"
 
 [tool.uv.sources]
 mira-extras = { workspace = true }
+koi-net-graph-extension = { path = "../../../koi-net-graph-extension", editable = true }

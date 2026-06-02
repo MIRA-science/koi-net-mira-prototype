@@ -8,7 +8,7 @@ import requests
 from atproto import Client
 
 
-BASE_NSID = "network.cosmik"
+BASE_NSID = "network.cosmik.dev"
 CARD_COLLECTION = f"{BASE_NSID}.card"
 COLLECTION_COLLECTION = f"{BASE_NSID}.collection"
 COLLECTION_LINK_COLLECTION = f"{BASE_NSID}.collectionLink"
@@ -124,7 +124,7 @@ def _fetch_url_metadata(url: str) -> Optional[dict]:
 
 
 class SemblePDSClient:
-    def __init__(self, service: str):
+    def __init__(self, service: str = "https://bsky.social"):
         self._client = Client(base_url=service)
 
     def login(self, identifier: str, password: str) -> None:
