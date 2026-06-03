@@ -1,7 +1,7 @@
 [project]
 name = "koi-net-semble-node"
 version = "0.1.0"
-description = "Add your description here"
+description = "KOI-net node for publishing research artifacts to Semble"
 readme = "README.md"
 authors = [
     { name = "lukvmil", email = "millerluke1364@gmail.com" }
@@ -9,9 +9,9 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "koi-net>=2.1.0b5",
-    "koi-net-graph-extension",
-    "mira-extras",
     "rid-lib>=3.3.0b1",
+    "koi-net-graph-extension",
+    "mira-extras"
 ]
 
 [build-system]
@@ -20,4 +20,4 @@ build-backend = "uv_build"
 
 [tool.uv.sources]
 mira-extras = { workspace = true }
-koi-net-graph-extension = { path = "../../../koi-net-graph-extension", editable = true }
+koi-net-graph-extension = { git = "https://github.com/DynamicalSystemsGroup/koi-net-graph-extension" }

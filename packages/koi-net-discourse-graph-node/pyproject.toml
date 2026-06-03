@@ -1,7 +1,7 @@
 [project]
 name = "koi-net-discourse-graph-node"
 version = "0.1.0"
-description = "Add your description here"
+description = "KOI-net node for interfacing with and reading research artifacts from Discourse Graphs"
 readme = "README.md"
 authors = [
     { name = "lukvmil", email = "millerluke1364@gmail.com" }
