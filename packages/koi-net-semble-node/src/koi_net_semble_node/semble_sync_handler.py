@@ -4,7 +4,7 @@ from koi_net.components.interfaces import KnowledgeHandler, HandlerType
 from koi_net.protocol import KnowledgeObject
 from rdflib import Dataset
 from rid_lib.types import HTTPS
-from mira_extras.semble import SemblePDSClient
+from mira_extras import SembleClient
 from koi_net_graph_extension.components import GraphParser
 
 from .config import SembleNodeConfig
@@ -13,22 +13,12 @@ from .config import SembleNodeConfig
 @dataclass
 class SembleSyncHandler(KnowledgeHandler):
     config: SembleNodeConfig
-    semble_client: SemblePDSClient = field(init=False)
+    semble_client: SembleClient
     rdf_dataset: Dataset
     graph_parser: GraphParser
     
     handler_type=HandlerType.Final
     rid_types=(HTTPS,)
-    
-    def __post_init__(self):
-        super().__post_init__()
-        self.semble_client = SemblePDSClient(service="https://bsky.social")
-        
-    def start(self):
-        self.semble_client.login(
-            self.config.env.bsky_handle,
-            self.config.env.bsky_app_password
-        )
         
     def handle(self, kobj: KnowledgeObject):
         self.log.info(f"HANDLING NEW DG DATA {kobj.rid}")
@@ -46,13 +36,12 @@ class SembleSyncHandler(KnowledgeHandler):
         """)
         
         if not result:
+            self.log.info("QUERY FAILED")
             return
         
         (row,) = result
         
-        # print(f"DRY RUN creating card <{kobj.rid}> '{row.title}'")
-        
-        self.semble_client.create_card(
+        self.semble_client.add_url(
             url=str(kobj.rid),
             note=row.title
         )

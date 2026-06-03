@@ -4,8 +4,7 @@ from pydantic import Field
 
 
 class SembleEnvConfig(EnvConfig):
-    bsky_handle: str
-    bsky_app_password: str
+    semble_api_key: str
 
 class SembleNodeConfig(FullNodeConfig):
     server: ServerConfig = ServerConfig(port=8009)

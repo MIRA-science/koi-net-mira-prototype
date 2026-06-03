@@ -44,7 +44,6 @@ class DGPoller(ThreadedComponent):
                 max(0, 30 - (time.monotonic() - start_time))
             )
     
-    
     def poll(self):
         for node, space_client in self.space_manager.space_clients.items():
             if self.exit_event.is_set():
@@ -98,8 +97,13 @@ class DGPoller(ThreadedComponent):
                         else:
                             self.log.info("new resource!")
 
-                        resource_data = space_client.get_resource(resource_uri.split("/")[-1])
-
+                        *_, space_id, resource_id = resource_uri.split("/")
+                        
+                        resource_data = space_client.get_resource(
+                            space_id=space_id,
+                            resource_id=resource_id
+                        )
+                        
                         kobj = KnowledgeObject.from_bundle(
                             Bundle.generate(
                                 rid=resource_uri,

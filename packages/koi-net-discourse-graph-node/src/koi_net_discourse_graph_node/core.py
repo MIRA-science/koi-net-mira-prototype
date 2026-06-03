@@ -8,7 +8,7 @@ from .config import DiscourseGraphNodeConfig
 
 
 class DiscourseGraphNode(FullNode):
-    config_schema = DiscourseGraphNodeConfig
-    space_manager = SpaceManager
-    backfiller = DGPoller
-    node_proxy_handler = NodeProxyHandler
+    config_schema: DiscourseGraphNodeConfig = DiscourseGraphNodeConfig
+    space_manager: SpaceManager = SpaceManager
+    backfiller: DGPoller = DGPoller
+    node_proxy_handler: NodeProxyHandler = NodeProxyHandler
