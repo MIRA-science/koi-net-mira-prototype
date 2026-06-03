@@ -14,6 +14,9 @@ dependencies = [
 koi-net-discourse-graph-node = { workspace = true }
 koi-net-semble-node = { workspace = true }
 
+[tool.setuptools.packages.find]
+where = ["packages"]
+
 [tool.uv.workspace]
 members = [
     "packages/koi-net-semble-node",
