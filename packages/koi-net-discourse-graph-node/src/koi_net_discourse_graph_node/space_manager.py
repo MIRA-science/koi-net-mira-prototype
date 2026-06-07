@@ -37,15 +37,18 @@ class SpaceManager:
             self.log.info(f"Loaded {node} space proxy, member of " + ", ".join(space_client.get_groups().values()))
         
         if self.identity.rid not in self.space_clients:
-            self.create_space(self.identity.rid)
+            self.create_space(
+                node=self.identity.rid,
+                name="koi-interface"
+            )
         
-    def create_space(self, node: KoiNetNode):
+    def create_space(self, node: KoiNetNode, name: str | None = None):
         if node in self.config.discourse_graph.spaces:
             return
         
         self.log.info(f"Creating new space for {node}")
         creds = SpaceCredentials(
-            name=node.name,
+            name=name or node.name,
             uri=str(node),
             password=str(uuid.uuid4())
         )
