@@ -15,7 +15,7 @@ class SpaceCredentials(BaseModel):
     password: str
 
 class DiscourseGraphConfig(BaseModel):
-    base_url: str = "https://discourse-graph-git-rt-experiments-discourse-graphs.vercel.app"
+    base_url: str = "https://discourse-graph-git-mira-collab-discourse-graphs.vercel.app"
     group_name: str = ""
     spaces: dict[KoiNetNode, SpaceCredentials] = {}
 

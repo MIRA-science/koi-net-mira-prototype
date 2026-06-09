@@ -1,0 +1,16 @@
+[project]
+name = "koi-net-mira-endpoint-node"
+version = "0.1.0"
+description = "KOI-net node for receiving MIRA data posted to provided endpoint"
+authors = [
+    { name = "lukvmil", email = "millerluke1364@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "koi-net>=2.1.0b5",
+    "rid-lib>=3.3.0b1"
+]
+
+[build-system]
+requires = ["uv_build>=0.8.15,<0.9.0"]
+build-backend = "uv_build"

@@ -6,13 +6,17 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "koi-net-coordinator-node>=0.1.0",
+    "koi-net-dashboard-node",
     "koi-net-discourse-graph-node",
+    "koi-net-mira-endpoint-node",
     "koi-net-semble-node",
 ]
 
 [tool.uv.sources]
 koi-net-discourse-graph-node = { workspace = true }
 koi-net-semble-node = { workspace = true }
+koi-net-mira-endpoint-node = { workspace = true }
+koi-net-dashboard-node = { workspace = true }
 
 [tool.setuptools.packages.find]
 where = ["packages"]
@@ -21,5 +25,7 @@ where = ["packages"]
 members = [
     "packages/koi-net-semble-node",
     "packages/koi-net-discourse-graph-node",
+    "packages/koi-net-mira-endpoint-node",
+    "packages/koi-net-dashboard-node",
     "packages/mira-extras",
 ]

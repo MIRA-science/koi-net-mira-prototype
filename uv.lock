@@ -5,7 +5,9 @@ requires-python = ">=3.12"
 [manifest]
 members = [
     "koi-mira-prototype",
+    "koi-net-dashboard-node",
     "koi-net-discourse-graph-node",
+    "koi-net-mira-endpoint-node",
     "koi-net-semble-node",
     "mira-extras",
 ]
@@ -406,14 +408,18 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "koi-net-coordinator-node" },
+    { name = "koi-net-dashboard-node" },
     { name = "koi-net-discourse-graph-node" },
+    { name = "koi-net-mira-endpoint-node" },
     { name = "koi-net-semble-node" },
 ]
 
 [package.metadata]
 requires-dist = [
     { name = "koi-net-coordinator-node", specifier = ">=0.1.0" },
+    { name = "koi-net-dashboard-node", editable = "packages/koi-net-dashboard-node" },
     { name = "koi-net-discourse-graph-node", editable = "packages/koi-net-discourse-graph-node" },
+    { name = "koi-net-mira-endpoint-node", editable = "packages/koi-net-mira-endpoint-node" },
     { name = "koi-net-semble-node", editable = "packages/koi-net-semble-node" },
 ]
 
@@ -454,6 +460,23 @@ wheels = [
 ]
 
 [[package]]
+name = "koi-net-dashboard-node"
+version = "0.1.0"
+source = { editable = "packages/koi-net-dashboard-node" }
+dependencies = [
+    { name = "koi-net" },
+    { name = "koi-net-graph-extension" },
+    { name = "rid-lib" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "koi-net", specifier = ">=2.1.0b5" },
+    { name = "koi-net-graph-extension", git = "https://github.com/DynamicalSystemsGroup/koi-net-graph-extension" },
+    { name = "rid-lib", specifier = ">=3.3.0b1" },
+]
+
+[[package]]
 name = "koi-net-discourse-graph-node"
 version = "0.1.0"
 source = { editable = "packages/koi-net-discourse-graph-node" }
@@ -481,6 +504,21 @@ dependencies = [
     { name = "pyshacl" },
     { name = "rdflib" },
     { name = "rid-lib" },
+]
+
+[[package]]
+name = "koi-net-mira-endpoint-node"
+version = "0.1.0"
+source = { editable = "packages/koi-net-mira-endpoint-node" }
+dependencies = [
+    { name = "koi-net" },
+    { name = "rid-lib" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "koi-net", specifier = ">=2.1.0b5" },
+    { name = "rid-lib", specifier = ">=3.3.0b1" },
 ]
 
 [[package]]
