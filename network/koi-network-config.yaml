@@ -1,0 +1,6 @@
+first_contact: coordinator
+nodes:
+  coordinator: koi_net_coordinator_node
+  mira_endpoint: koi_net_mira_endpoint_node
+  discourse_graph: koi_net_discourse_graph_node
+  dashboard: koi_net_dashboard_node
