@@ -73,7 +73,7 @@ class DGPoller(ThreadedComponent):
                     space_graph.parse(data=space_data, format="json-ld")
 
                     SIOC = Namespace("http://rdfs.org/sioc/ns#")
-                    DC = Namespace("http://purl.org/dc/elements/1.1/")
+                    DCT = Namespace("http://purl.org/dc/terms/")
 
                     for _, _, resource_uri in space_graph.triples((None, SIOC.container_of, None)):
                         if self.exit_event.is_set():
@@ -87,7 +87,7 @@ class DGPoller(ThreadedComponent):
 
                             curr_modified_str = space_graph.value(
                                 subject=resource_uri,
-                                predicate=DC.modified)
+                                predicate=DCT.modified)
                             curr_modified = datetime.fromisoformat(curr_modified_str)
 
                             if curr_modified <= last_modified:

@@ -28,10 +28,13 @@ class SembleSyncHandler(KnowledgeHandler):
         result = graph.query(f"""
             PREFIX dc: <http://purl.org/dc/elements/1.1/>
             PREFIX dgc: <https://discoursegraphs.com/schema/dg_core#>
-            SELECT ?type ?title
+            SELECT ?type ?title ?content_uri ?content
             WHERE {{
                 VALUES ?type {{ dgc:Claim dgc:Evidence dgc:Question }}
-                <{kobj.rid}> a ?type ; dc:title ?title .
+                <{kobj.rid}> a ?type ; 
+                    dc:title ?title ;
+                    dc:description ?content_uri .
+                ?content_uri sioc:content ?content .
             }}
         """)
         
@@ -42,6 +45,6 @@ class SembleSyncHandler(KnowledgeHandler):
         (row,) = result
         
         self.semble_client.add_url(
-            url=str(kobj.rid),
-            note=row.title
+            url=str(row.content_uri),
+            note=row.title + "\n" + row.content
         )

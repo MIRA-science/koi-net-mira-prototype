@@ -107,6 +107,33 @@ class DiscourseGraphSpaceClient:
         )
         resp.raise_for_status()
         return resp.json()
+    
+    def post_resource(self, body: dict):
+        resp = requests.post(
+            self.base_client.base_url + f"/api/data/{self.space_id}",
+            json=body
+        )
+        resp.raise_for_status()
+        
+    def publish_resource(self, source_local_id: str, group_name: str | None):
+        if group_name is None:
+            group_id = "00000000-0000-0000-0000-000000000000"  # Publish to all
+        else:
+            group_id = self.get_group(group_name)
+        resp = (
+            self._supabase.table("ResourceAccess")
+            .upsert(
+                [
+                    dict(
+                        account_uid=group_id,
+                        space_id=self.space_id,
+                        source_local_id=source_local_id,
+                    )
+                ]
+            )
+            .execute()
+        )
+        assert resp.data
 
     def get_resource(self, resource_id: int, space_id: int = None, **params):
         sid = space_id if space_id is not None else self.space_id
@@ -210,3 +237,25 @@ class DiscourseGraphSpaceClient:
             dict(token=token),
         ).execute()
         # assert resp.data   # works once, not idempotent (oupse!)
+
+    def upsert_accounts(self, accounts: list[dict], space_id: int = None) -> list[int]:
+        """Register platform accounts into a space. Each account dict should have:
+        name, account_local_id, platform, agent_type.
+        Returns list of account IDs."""
+        sid = space_id if space_id is not None else self.space_id
+        resp = self._supabase.rpc(
+            "upsert_accounts_in_space",
+            dict(accounts=accounts, space_id_=sid),
+        ).execute()
+        return resp.data
+
+    def get_platform_account(self, account_local_id: str, fields: str = "id,dg_account"):
+        """Look up a PlatformAccount by its local ID."""
+        resp = (
+            self._supabase.table("PlatformAccount")
+            .select(fields)
+            .eq("account_local_id", account_local_id)
+            .maybe_single()
+            .execute()
+        )
+        return resp.data
