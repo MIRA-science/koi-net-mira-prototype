@@ -48,7 +48,7 @@ class MiraServer(NodeServer):
     def __post_init__(self):
         super().__post_init__()
         self.app.add_api_route(
-            path="/mira/object",
+            path="/object",
             endpoint=self.create_mira_endpoint(),
             methods=["POST"]
         )

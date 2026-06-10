@@ -24,7 +24,7 @@ class DashboardServer(NodeServer):
     def __post_init__(self):
         super().__post_init__()
         self.app.add_api_route(
-            path="/mira/query",
+            path="/query",
             endpoint=self.create_dashboard_endpoint(),
             methods=["POST"]
         )
