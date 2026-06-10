@@ -1,5 +1,10 @@
-from koi_net.config import FullNodeConfig, FullNodeProfile, NodeProvides, ServerConfig, KoiNetConfig
+from koi_net.config import FullNodeConfig, FullNodeProfile, NodeProvides, ServerConfig, KoiNetConfig, EnvConfig
 from rid_lib.types import HTTPS, KoiNetNode
+from pydantic import Field
+
+
+class DashboardEnvConfig(EnvConfig):
+    dashboard_api_key: str
 
 
 class DashboardNodeConfig(FullNodeConfig):
@@ -11,3 +16,4 @@ class DashboardNodeConfig(FullNodeConfig):
         ),
         rid_types_of_interest=[KoiNetNode, HTTPS]
     )
+    env: DashboardEnvConfig = Field(default_factory=DashboardEnvConfig)
