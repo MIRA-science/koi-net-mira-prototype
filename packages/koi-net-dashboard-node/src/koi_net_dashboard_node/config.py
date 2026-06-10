@@ -3,7 +3,7 @@ from rid_lib.types import HTTPS, KoiNetNode
 
 
 class DashboardNodeConfig(FullNodeConfig):
-    server: ServerConfig = ServerConfig(port=8009)
+    server: ServerConfig = ServerConfig(port=8010)
     koi_net: KoiNetConfig = KoiNetConfig(
         node_name="dashboard",
         node_profile=FullNodeProfile(

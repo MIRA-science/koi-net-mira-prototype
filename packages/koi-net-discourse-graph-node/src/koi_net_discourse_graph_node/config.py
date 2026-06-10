@@ -28,6 +28,7 @@ class DiscourseGraphNodeConfig(FullNodeConfig):
                 event=[HTTPS],
                 state=[HTTPS]
             )
-        )
+        ),
+        rid_types_of_interest=[KoiNetNode, HTTPS]
     )
     discourse_graph: DiscourseGraphConfig = Field(default_factory=DiscourseGraphConfig)
