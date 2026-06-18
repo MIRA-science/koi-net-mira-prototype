@@ -9,13 +9,10 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "koi-net>=2.1.0b5",
+    "koi-net-graph-extension>=0.1.2",
     "rid-lib>=3.3.0b1",
-    "koi-net-graph-extension",
 ]
 
 [build-system]
 requires = ["uv_build>=0.8.15,<0.9.0"]
 build-backend = "uv_build"
-
-[tool.uv.sources]
-koi-net-graph-extension = { git = "https://github.com/DynamicalSystemsGroup/koi-net-graph-extension" }

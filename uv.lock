@@ -407,7 +407,7 @@ requires-dist = [
 
 [[package]]
 name = "koi-net"
-version = "2.1.0b7"
+version = "2.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "colorama" },
@@ -426,9 +426,9 @@ dependencies = [
     { name = "structlog" },
     { name = "uvicorn" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/1e/23/35f4d2ae48f9a9a03bdc6c7b299249964513ff85c32a036096945b0bcb3d/koi_net-2.1.0b7.tar.gz", hash = "sha256:d5b2112caebeda0a5d95fa4582113b3a1a8145f6cd5114c226af25e9ccb00cf1", size = 49726, upload-time = "2026-06-10T08:40:36.972Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ee/e0/df8f62ad246e43c4b8c6a620dd93e947dff72b5a66ea7008ce9058b02639/koi_net-2.1.0.tar.gz", hash = "sha256:c8c8549d5d3a94bc7886b52847f235eecb7558816595c17dd298840894c8e087", size = 49696, upload-time = "2026-06-18T18:06:43.231Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/ae/6b/65b5db22016cd00f268d2355f5418a9ae59c198a3722bd6317aa49fb806c/koi_net-2.1.0b7-py3-none-any.whl", hash = "sha256:83c887ff1d3efe056aef4624bb455c3a4e609f88700ea834c47019a3a598dcf3", size = 73001, upload-time = "2026-06-10T08:40:35.624Z" },
+    { url = "https://files.pythonhosted.org/packages/60/a5/7cd735787faf0f8b10fea7ae40b08d172a56c2e4310d45f3f6de3938a13f/koi_net-2.1.0-py3-none-any.whl", hash = "sha256:1b74f60ad127c2c5986dd1468d1007ef97c0722d696354ec8ed3e4e10f6ce7d7", size = 72971, upload-time = "2026-06-18T18:06:41.934Z" },
 ]
 
 [[package]]
@@ -456,7 +456,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "koi-net", specifier = ">=2.1.0b5" },
-    { name = "koi-net-graph-extension", git = "https://github.com/DynamicalSystemsGroup/koi-net-graph-extension" },
+    { name = "koi-net-graph-extension", specifier = ">=0.1.2" },
     { name = "rid-lib", specifier = ">=3.3.0b1" },
 ]
 
@@ -481,13 +481,17 @@ requires-dist = [
 
 [[package]]
 name = "koi-net-graph-extension"
-version = "0.1.2"
-source = { git = "https://github.com/DynamicalSystemsGroup/koi-net-graph-extension#db9257b5941cd03fe27f0c2f54eaf30085bb8cdd" }
+version = "0.1.3"
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "koi-net" },
     { name = "pyshacl" },
     { name = "rdflib" },
     { name = "rid-lib" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/1d/cc/eefc9e6db5b3d1bf31d02a36b69835baed3d5091948d19273893425462e0/koi_net_graph_extension-0.1.3.tar.gz", hash = "sha256:25b3a729bc6aedac484ecb4556383d829f842a952d49b5b3a771714cc6e682dd", size = 5735, upload-time = "2026-06-18T18:23:49.417Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/27/dc/d65477959823afa1cf9dc047926c95fe015a42fef50f3e9d19ac0aeb8d39/koi_net_graph_extension-0.1.3-py3-none-any.whl", hash = "sha256:cd961b66889616b03c588cb4b5bc355a35dbc0c48803628aed035942588bc3d1", size = 8294, upload-time = "2026-06-18T18:23:48.406Z" },
 ]
 
 [[package]]
@@ -519,7 +523,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "koi-net", specifier = ">=2.1.0b5" },
-    { name = "koi-net-graph-extension", git = "https://github.com/DynamicalSystemsGroup/koi-net-graph-extension" },
+    { name = "koi-net-graph-extension", specifier = ">=0.1.3" },
     { name = "mira-extras", editable = "packages/mira-extras" },
     { name = "rid-lib", specifier = ">=3.3.0b1" },
 ]
@@ -1042,14 +1046,14 @@ wheels = [
 
 [[package]]
 name = "rid-lib"
-version = "3.3.0b1"
+version = "3.3.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/07/37/0a593c1007176518ee7c8de505af496619757aab3a8b5e241abdb3531c80/rid_lib-3.3.0b1.tar.gz", hash = "sha256:5961db61954c69eaef3f7d64b4209ebca2963d8e52d75d963ac89a668f497d8c", size = 27134, upload-time = "2026-05-08T19:12:22.64Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/50/d8/405d5aa88059189fbc4774de903dec9ad4d4d84f58276e8bafc47178809f/rid_lib-3.3.0.tar.gz", hash = "sha256:013cc705ba3ac27c92db287daccf71434b295e0254bacbbc214739680915bf5b", size = 80378, upload-time = "2026-06-18T17:53:16.717Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/97/3f/e341d693ca7c12adeb5fdc38d748670774ec93fbd304fc7b12e035f2bf95/rid_lib-3.3.0b1-py3-none-any.whl", hash = "sha256:82de0c1e1e83f779fdb8c872962b36bc46fa3f8844e30c0ecff61b3a4e477e58", size = 40044, upload-time = "2026-05-08T19:12:21.137Z" },
+    { url = "https://files.pythonhosted.org/packages/c9/72/271423ee8ed821af761e59b3bdc3b47bab997e78fa333888ce093ea6e15a/rid_lib-3.3.0-py3-none-any.whl", hash = "sha256:76c672e8b3d4a09f83ab9e41e66554f893e4d994688ebb902e6d0788b45894e9", size = 39885, upload-time = "2026-06-18T17:53:15.655Z" },
 ]
 
 [[package]]
@@ -1063,15 +1067,15 @@ wheels = [
 
 [[package]]
 name = "starlette"
-version = "1.2.1"
+version = "1.3.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "anyio" },
     { name = "typing-extensions", marker = "python_full_version < '3.13'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/25/44/ec35f1b6e83094b997da438a02c8c9b0ade2b1e84cfc48bd4656780760a6/starlette-1.2.1.tar.gz", hash = "sha256:9b9b5ebb992e67d6093741e63c2f59e4f6fff986f81163c087867bd7b924b3f6", size = 2701854, upload-time = "2026-05-31T01:07:51.847Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/eb/e3/7c1dc7381d9f8ab7d854328ebfa884e62cb3f3d8549ddfd37c7814f42afa/starlette-1.3.1.tar.gz", hash = "sha256:05d0213193f2fbaae60e2ecb593b4add4262ad4e46536b54abe36f11a71724e0", size = 2703240, upload-time = "2026-06-12T09:23:11.602Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1c/54/196d0c1db10af76baa4f64894448505d60d3cdf70ef92cbb35f46a4e4c71/starlette-1.2.1-py3-none-any.whl", hash = "sha256:4de0082d08c8f6764a85a54cf1120d6939507a19905c7768acad2a9f875d2b89", size = 73350, upload-time = "2026-05-31T01:07:50.09Z" },
+    { url = "https://files.pythonhosted.org/packages/ec/bb/2799cc2ede3ed41131f8975621e7213dfc7ef4acbbaadfa440f32500c370/starlette-1.3.1-py3-none-any.whl", hash = "sha256:c7372aae11c3c3f26a42df7bd626cec2f47d03483d261d369516a615a53714c6", size = 73632, upload-time = "2026-06-12T09:23:10.017Z" },
 ]
 
 [[package]]
