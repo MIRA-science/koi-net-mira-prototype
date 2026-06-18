@@ -22,21 +22,16 @@ class SpaceManager:
         self.dg_client = DiscourseGraphClient(
             base_url=self.config.discourse_graph.base_url
         )
+        self.space_clients = {}
         self.load_spaces()
         
     def load_spaces(self):
         self.log.info("Loading spaces from configuration...")
-        self.space_clients = {}
         for node, creds in self.config.discourse_graph.spaces.items():
-            space_client = self.dg_client.create_space(
-                name=creds.name,
-                url=creds.uri,
-                password=creds.password
-            )
-            self.space_clients[node] = space_client
-            self.log.info(f"Loaded {node} space proxy, member of " + ", ".join(space_client.get_groups().values()))
+            self.create_space(node)
         
         if self.identity.rid not in self.space_clients:
+            self.log.info("CREATING MANAGER")
             self.create_space(
                 node=self.identity.rid,
                 name="koi-interface"
@@ -44,16 +39,27 @@ class SpaceManager:
         
     def create_space(self, node: KoiNetNode, name: str | None = None):
         if node in self.config.discourse_graph.spaces:
-            return
+            self.log.info("Loaded creds from config")
+            creds = self.config.discourse_graph.spaces[node]
+        else:
+            self.log.info(f"Creating new space for {node}")
+            creds = SpaceCredentials(
+                name=name or node.name,
+                uri=str(node)+"/2",
+                password=str(uuid.uuid4())
+            )
+            self.config.discourse_graph.spaces[node] = creds
+            self.config.save_to_yaml()
+            
         
-        self.log.info(f"Creating new space for {node}")
-        creds = SpaceCredentials(
-            name=name or node.name,
-            uri=str(node),
-            password=str(uuid.uuid4())
+        space_client = self.dg_client.create_space(
+            name=creds.name,
+            url=creds.uri,
+            password=creds.password
         )
-        self.config.discourse_graph.spaces[node] = creds
-        self.config.save_to_yaml()
+        self.log.info(f"Loaded {node} space proxy, member of " + ", ".join(space_client.get_groups().values()))
+        
+        self.space_clients[node] = space_client
         
     def add_to_group(self, node: KoiNetNode):
         self.log.info(f"Adding {node} space proxy to group '{self.config.discourse_graph.group_name}'")
